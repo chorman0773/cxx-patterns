@@ -119,7 +119,13 @@ namespace cxx_patterns
     template <typename T, std::size_t N>
     decltype(auto) forward_to_tuple(T (&&arr)[N]) noexcept
     {
-        return _detail::_to_tuple_impl(std::forward<T[N]>(arr), std::make_index_sequence<N>{});
+        return _detail::_to_tuple_impl(std::move(arr), std::make_index_sequence<N>{});
+    }
+
+    template <typename T, std::size_t N>
+    decltype(auto) forward_to_tuple(T (&arr)[N]) noexcept
+    {
+        return _detail::_to_tuple_impl(arr, std::make_index_sequence<N>{});
     }
 
     template <typename F, typename Tuple>
